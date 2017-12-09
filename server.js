@@ -12,7 +12,7 @@ var cheerio = require('cheerio');
 // Require all models
 var db = require('./models');
 
-var PORT = 3500;
+var PORT = 4000;
 
 // Initialize Express
 var app = express();
@@ -38,7 +38,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/week18Populater', {
 // A GET route for scraping the website
 app.get('/scrape', function(req, res) {
   // First, we grab the body of the html with request
-  axios.get('http://www.echojs.com/').then(function(response) {
+  axios.get('http://www.mlbtraderumors.com/').then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
     // Now, we grab every h2 within an article tag, and do the following:
@@ -70,7 +70,7 @@ app.get('/scrape', function(req, res) {
 
 // Route for getting all Articles from the db
 app.get('/articles', function(req, res) {
-  // TODO: Finish the route so it grabs all of the articles
+  
   db.Article.find()
     .then(function(articles) {
       res.json(articles);
@@ -82,12 +82,7 @@ app.get('/articles', function(req, res) {
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get('/articles/:id', function(req, res) {
-  // TODO
-  // ====
-  // Finish the route so it finds one article using the req.params.id,
-  // and run the populate method with "note",
-  // then responds with the article with the note included
-  // findOne returns object, find returns array of objects (this is important for how you handle your data on the front end)
+
   db.Article.findOne({ _id: req.params.id })
     .populate('note')
     .then(function(article) {
@@ -100,11 +95,7 @@ app.get('/articles/:id', function(req, res) {
 
 // Route for saving/updating an Article's associated Note
 app.post('/articles/:id', function(req, res) {
-  // TODO
-  // ====
-  // save the new note that gets posted to the Notes collection
-  // then find an article from the req.params.id
-  // and update it's "note" property with the _id of the new note
+ 
   db.Note.create(req.body)
     .then(function(dbNote) {
       // Take returned note and push it's _id into Articles.note array. Set new: true so it returns updated Article and not old one

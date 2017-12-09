@@ -19,7 +19,7 @@ var ArticleSchema = new Schema({
   // `note` is an object that stores a Note id
   // The ref property links the ObjectId to the Note model
   // This allows us to populate the Article with an associated Note
-  // ALEX UPDATE: make sure it's an array and not just an object. An array will allow multiple notes to be passed through and associated. An object will just overwrite it's single associated note
+  // An array will allow multiple notes to be passed through and associated. An object will just overwrite it's single associated note
   note: [{
     type: Schema.Types.ObjectId,
     ref: "Note"
